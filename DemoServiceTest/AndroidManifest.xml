@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.demoservicetest"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="10" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+         <activity
+            android:name="com.example.demoservicetest.MainActivity"
+            android:label="@string/app_name" android:clearTaskOnLaunch="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+         <activity
+            android:name="com.example.demoservicetest.TestBrowser"
+            android:label="@string/app_name" android:clearTaskOnLaunch="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+         <activity android:name="com.example.demoservicetest.StartOnUri"
+                 android:label="@string/app_name" android:clearTaskOnLaunch="true">
+            <intent-filter>
+                <data android:scheme="startonuri" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="android.intent.category.BROWSABLE"></category>
+            </intent-filter>
+        </activity>
+ 
+        <service
+            android:enabled="true"
+            android:name=".WebPullService"
+            android:process=":my_process"
+            android:exported="false"/>
+        
+        <service
+            android:enabled="true"
+            android:name=".WakeupActivityService"
+            android:exported="false"/>
+        
+    </application>
+    
+   <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+   <!-- <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission> -->
+
+</manifest>
