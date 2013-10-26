@@ -56,8 +56,12 @@ public class WebPullService extends Service { // IntentService {
 				//--writeToFile("Screen is on");
 				//--callBrowserForRequest();
 				// For clearing screen :D
-				//--if ( !displayOn )
-				//--  startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
+				Intent i = new Intent (Intent.ACTION_MAIN);
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				i.addCategory(Intent.CATEGORY_HOME);
+				if ( !displayOn )
+					startActivity(i);
+				//  startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
 				displayOn = true;
 			}
 
