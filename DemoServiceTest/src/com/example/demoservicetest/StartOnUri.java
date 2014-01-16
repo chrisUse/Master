@@ -13,10 +13,12 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -128,9 +130,11 @@ public class StartOnUri extends Activity {
 
 	public void callBrowserForRequest(String request) {
 		long lDateTime = new Date().getTime();
+//		TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+		int uuid = android.os.Build.MODEL.hashCode();
 		startActivity(new Intent(
 				Intent.ACTION_VIEW,
-				Uri.parse("http://212.201.64.227/chrisMaster/redi.php?devID=1&ds="
+				Uri.parse("http://212.201.64.227/chrisMaster/redi.php?devID="+uuid+"&ds="
 						+ lDateTime + "&command=" + request))
 				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 

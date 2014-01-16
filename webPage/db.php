@@ -1,5 +1,13 @@
 <html>
  <head>
+  <?php
+    $devID = 0;
+
+    if ( isset ( $_GET["devID"] ) ) {
+      $devID = $_GET["devID"];
+    }
+  ?>
+
   <script src="jquery.js"></script>
   <script type="text/javascript">
    function analyseRequest ( request ) {
@@ -15,7 +23,7 @@
    }
 
    function getCommandRequest (  ) {
-     jqueryReaktion ( "jqueryRequest.php?getCommandRe=1", analyseRequest );
+     jqueryReaktion ( "jqueryRequest.php?devID=<?php echo $devID; ?>&getCommandRe=1", analyseRequest );
    }
 
    function keepAliveReaktion () {
@@ -36,20 +44,21 @@
 
     if ( isset ( $_POST["commandLine"] ) ) {
       // Command are insert
-      setCommandForDevice ($_POST["commandLine"]);
+      setCommandForDevice ($_POST["commandLine"],$devID);
       $text .= "\n]\$ " . $_POST["commandLine"];
     } else {
       echo "No command";
     }
 
+
     // Show Page for Browser
     //$text = "";
-    $result = getRequestFromDevice();
+    $result = getRequestFromDevice($devID);
     //print_r ( $result );
     if ( !empty ($result) )
       $text .= "".$result[0]["command"];
     ?>
-      <form name="" method="post" action="db.php">
+      <form name="" method="post" action="db.php?devID=<?php echo $devID;?>">
        <textarea id="command" name="command" cols="100" rows="20"><?php echo $text; ?></textarea>
        <br />
        <input type="text" size="80" name="commandLine">

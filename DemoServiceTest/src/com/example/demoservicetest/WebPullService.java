@@ -14,13 +14,16 @@ import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class WebPullService extends Service { // IntentService {
@@ -47,13 +50,13 @@ public class WebPullService extends Service { // IntentService {
 			boolean isScreenOn = powerManager.isScreenOn();
 
 			if (!isScreenOn) {
-				//--writeToFile("Screen is off");
+				writeToFile("Screen is off");
 				// Connect to Server
 				//startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 				callBrowserForRequest();
 				displayOn = false;
 			} else {
-				//--writeToFile("Screen is on");
+				writeToFile("Screen is on");
 				//--callBrowserForRequest();
 				// For clearing screen :D
 				Intent i = new Intent (Intent.ACTION_MAIN);
@@ -78,7 +81,11 @@ public class WebPullService extends Service { // IntentService {
 
 	public void callBrowserForRequest() {
 		long lDateTime = new Date().getTime();
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://212.201.64.227/chrisMaster/redi.php?devID=1&ds="
+		//TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+		//String uuid = tManager.getDeviceId();
+        int uuid = android.os.Build.MODEL.hashCode();
+        
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://212.201.64.227/chrisMaster/redi.php?devID="+uuid+"&ds="
 						+ lDateTime)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 	}
 

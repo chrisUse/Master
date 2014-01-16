@@ -55,14 +55,14 @@
       return $retArray;
     }
 
-    function getCommandForDevice () {
+    function getCommandForDevice ( $devID ) {
       return getDBArray ("select * from chrisMaster "
-                        ."where devID=1 and typ=0 order by id LIMIT 1"); // desc
+                        ."where devID=".$devID." and typ=0 order by id LIMIT 1"); // desc
     }
 
-    function getRequestFromDevice() {
+    function getRequestFromDevice ( $devID ) {
       $retArray = getDBArray ("select * from chrisMaster "
-                 ."where devID=1 and typ=1 order by id LIMIT 1");
+                 ."where devID=".$devID." and typ=1 order by id LIMIT 1");
       if ( !empty ($retArray) )
         insertInDB ("update chrisMaster set typ=3 where id=".$retArray[0]["id"]);
       return $retArray;
@@ -77,13 +77,24 @@
       }
     }
 
-    function setCommandForDevice ( $command ) {
+    function setCommandForDevice ( $command, $devID ) {
       //$checkElem = getDBArray ("select id from chrisMaster where command LIKE '".$command."' AND cID=".$cID);
       //if ( empty ($checkElem) ) {
       echo "Command: " . $command ;
-      insertInDB ("insert into chrisMaster (devID, command, typ, cID) VALUES (1, \"".$command."\", 0, 0);");
+      insertInDB ("insert into chrisMaster (devID, command, typ, cID) VALUES (".$devID.", \"".$command."\", 0, 0);");
       //}
     }
 
+    function setAlive ( $devID ) { 
+      $checkElem = getDBArray ("select id from chrisMaster where command LIKE 'Alive' AND devID=".$devID);
+      if ( empty ($checkElem) ) {
+        insertInDB ("insert into chrisMaster (devID, command, typ, cID) VALUES (".$devID.", \"Alive\", 3, 0);");
+      }
+    }
+
+    function getAlive () {
+      return getDBArray ("select devID from chrisMaster "
+                              ."where typ=3 AND command LIKE 'Alive';");
+    }
 
 ?>
